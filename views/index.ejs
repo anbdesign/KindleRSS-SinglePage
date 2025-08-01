@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Kindle Reader</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>RSS Kindle Reader</h1>
+        <div class="subtitle">Updated: <span id="update-time"></span></div>
+    </div>
+
+    <div id="main-navigation" class="navigation">
+        <!-- Feed navigation will be populated by JavaScript -->
+    </div>
+
+    <!-- Content areas for each feed -->
+    <div id="content-container">
+        <!-- Feed content will be populated by JavaScript -->
+    </div>
+
+    <!-- EJS Data Injection -->
+    <script type="application/json" id="feeds-data"><%- feeds %></script>
+    
+    <script src="/app.js"></script>
+    <script>
+        console.log('Starting initialization...');
+        
+        // Set the feeds data and initialize
+        try {
+            console.log('Setting feeds data...');
+            // Get feeds data from JSON script tag
+            const feedsDataElement = document.getElementById('feeds-data');
+            const feedsData = JSON.parse(feedsDataElement.textContent);
+            setFeedsData(feedsData);
+            console.log('Feeds data set, count:', feedsData.length);
+        } catch (error) {
+            console.error('Error setting feeds data:', error);
+        }
+        
+        // Initialize the page when DOM is ready
+        function initializeApp() {
+            console.log('Initializing app...');
+            try {
+                initializePage();
+                console.log('App initialized successfully');
+            } catch (error) {
+                console.error('Error initializing app:', error);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
+    </script>
+</body>
+</html>

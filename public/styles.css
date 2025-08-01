@@ -1,0 +1,410 @@
+body {
+    font-family: "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    color: #000000;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 24px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+a {
+    color: #000000;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.nav {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav a {
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+button {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.error {
+    color: #000000;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 2px solid #000000;
+    margin: 20px 0;
+}
+
+.loading {
+    text-align: center;
+    font-style: italic;
+    margin: 20px 0;
+}
+
+.article-list {
+    list-style: none;
+    padding: 0;
+}
+
+.article-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 2px solid #eee;
+    background-color: #fafafa;
+}
+
+.article-title {
+    margin-bottom: 10px;
+}
+
+.article-title a {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px solid transparent;
+}
+
+.article-title a::after {
+    content: " →";
+    color: #666;
+    font-size: 16px;
+}
+
+.article-meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.article-summary {
+    margin-bottom: 10px;
+}
+
+.article-content {
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.article-content p {
+    margin-bottom: 15px;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px 0;
+}
+
+.content-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-left: 3px solid #000;
+    background-color: #f9f9f9;
+}
+
+.content-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.back-link {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.article-tags, .article-categories {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #000;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+.feed-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feed-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #ccc;
+    background-color: #fafafa;
+    transition: background-color 0.2s;
+}
+
+.feed-item.error {
+    background-color: #fff5f5;
+    border-color: #ccc;
+}
+
+.feed-title {
+    margin-bottom: 5px;
+}
+
+.feed-title a {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 2px solid transparent;
+}
+
+.feed-title a::after {
+    content: " →";
+    color: #666;
+}
+
+.feed-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.feed-stats {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Application-specific styles */
+.header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin: 0;
+    font-weight: normal;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.navigation {
+    margin-bottom: 30px;
+}
+
+.nav-item {
+    display: block;
+    padding: 15px;
+    border: 2px solid #ccc;
+    background-color: #fafafa;
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: background-color 0.2s;
+}
+
+.feed-count {
+    color: #666;
+    font-size: 14px;
+    float: right;
+}
+
+.content-area {
+    display: none;
+}
+
+.content-area.active {
+    display: block;
+}
+
+.article {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 2px solid #eee;
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+.article .article-title {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: #000;
+}
+
+.article .article-title:hover {
+    text-decoration: underline;
+}
+
+.article-view {
+    display: none;
+}
+
+.article-view.active {
+    display: block;
+}
+
+.article-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.article-header .article-title {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+    font-weight: bold;
+    color: #000;
+    line-height: 1.3;
+}
+
+.article-header .article-meta {
+    font-size: 14px;
+    color: #666;
+}
+
+.error-message {
+    color: #000000;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 2px solid #000000;
+    margin: 20px 0;
+}
+
+.debug-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.debug-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.debug-content {
+    display: none;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.debug-content.active {
+    display: block;
+}
+
+/* Kindle-specific optimizations */
+@media (max-width: 600px) {
+    body {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    .nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .feed-count {
+        float: none;
+        display: block;
+        margin-top: 5px;
+    }
+}
+
+/* Print styles for better Kindle compatibility */
+@media print {
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    
+    .nav-item, .back-link {
+        color: #000 !important;
+    }
+}
