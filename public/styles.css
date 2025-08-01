@@ -1,24 +1,67 @@
+/* CSS Variables for theming */
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --border-color: #404040;
+    --item-bg-color: #2a2a2a;
+    --item-hover-bg-color: #3a3a3a;
+    --header-border-color: #505050;
+    --link-color: #c0c0c0;
+    --error-bg-color: #3a2a2a;
+    --error-border-color: #505050;
+    --button-bg-color: #404040;
+    --button-text-color: #e0e0e0;
+    --button-border-color: #606060;
+    --input-bg-color: #2a2a2a;
+    --input-border-color: #505050;
+    --meta-text-color: #a0a0a0;
+    --debug-bg-color: #252525;
+    --debug-border-color: #404040;
+}
+
+/* Light mode variables */
+:root.light-mode {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #cccccc;
+    --item-bg-color: #fafafa;
+    --item-hover-bg-color: #f0f0f0;
+    --header-border-color: #000000;
+    --link-color: #000000;
+    --error-bg-color: #f0f0f0;
+    --error-border-color: #000000;
+    --button-bg-color: #000000;
+    --button-text-color: #ffffff;
+    --button-border-color: #000000;
+    --input-bg-color: #ffffff;
+    --input-border-color: #000000;
+    --meta-text-color: #666666;
+    --debug-bg-color: #f5f5f5;
+    --debug-border-color: #cccccc;
+}
+
 body {
     font-family: "Times New Roman", serif;
     font-size: 18px;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     max-width: 800px;
     margin: 0 auto;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3 {
-    color: #000000;
+    color: var(--text-color);
     margin-top: 30px;
     margin-bottom: 15px;
 }
 
 h1 {
     font-size: 24px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid var(--header-border-color);
     padding-bottom: 10px;
 }
 
@@ -31,7 +74,7 @@ h3 {
 }
 
 a {
-    color: #000000;
+    color: var(--link-color);
     text-decoration: underline;
     cursor: pointer;
 }
@@ -44,7 +87,7 @@ a {
 .nav {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .nav a {
@@ -66,14 +109,14 @@ input[type="url"] {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #000000;
-    background-color: #ffffff;
-    color: #000000;
+    border: 2px solid var(--input-border-color);
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
 }
 
 button {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     padding: 10px 20px;
     font-size: 16px;
     border: none;
@@ -81,10 +124,10 @@ button {
 }
 
 .error {
-    color: #000000;
-    background-color: #f0f0f0;
+    color: var(--text-color);
+    background-color: var(--error-bg-color);
     padding: 20px;
-    border: 2px solid #000000;
+    border: 2px solid var(--error-border-color);
     margin: 20px 0;
 }
 
@@ -102,8 +145,8 @@ button {
 .article-item {
     margin-bottom: 20px;
     padding: 15px;
-    border-bottom: 2px solid #eee;
-    background-color: #fafafa;
+    border-bottom: 2px solid var(--border-color);
+    background-color: var(--item-bg-color);
 }
 
 .article-title {
@@ -114,19 +157,19 @@ button {
     font-size: 20px;
     font-weight: bold;
     text-decoration: none;
-    color: #000;
+    color: var(--text-color);
     border-bottom: 1px solid transparent;
 }
 
 .article-title a::after {
     content: " →";
-    color: #666;
+    color: var(--meta-text-color);
     font-size: 16px;
 }
 
 .article-meta {
     font-size: 14px;
-    color: #666;
+    color: var(--meta-text-color);
     margin-bottom: 10px;
 }
 
@@ -137,10 +180,12 @@ button {
 .article-content {
     line-height: 1.8;
     margin-bottom: 20px;
+    font-size: 20px;
 }
 
 .article-content p {
     margin-bottom: 15px;
+    font-size: 20px;
 }
 
 .article-content img {
@@ -164,10 +209,10 @@ button {
 .image-placeholder {
     max-width: 100%;
     margin: 20px 0;
-    border: 2px dashed #666;
+    border: 2px dashed var(--border-color);
     padding: 20px;
     text-align: center;
-    background-color: #f5f5f5;
+    background-color: var(--item-bg-color);
     border-radius: 8px;
 }
 
@@ -181,46 +226,47 @@ button {
 .image-placeholder-icon {
     font-size: 48px;
     opacity: 0.6;
+    color: var(--meta-text-color);
 }
 
 .image-placeholder-text {
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 
 .image-placeholder-note {
     font-size: 14px;
-    color: #666;
+    color: var(--meta-text-color);
     font-style: italic;
 }
 
 .content-section {
     margin-bottom: 30px;
     padding: 20px;
-    border-left: 3px solid #000;
-    background-color: #f9f9f9;
+    border-left: 3px solid var(--header-border-color);
+    background-color: var(--item-bg-color);
 }
 
 .content-section h3 {
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 16px;
-    color: #333;
-    border-bottom: 1px solid #ccc;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 5px;
 }
 
 .back-link {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 
 .article-tags, .article-categories {
     margin-top: 15px;
     padding: 10px;
-    background-color: #f9f9f9;
-    border-left: 3px solid #000;
+    background-color: var(--item-bg-color);
+    border-left: 3px solid var(--header-border-color);
     font-size: 16px;
 }
 
@@ -236,14 +282,14 @@ button {
 .feed-item {
     margin-bottom: 15px;
     padding: 15px;
-    border: 2px solid #ccc;
-    background-color: #fafafa;
+    border: 2px solid var(--border-color);
+    background-color: var(--item-bg-color);
     transition: background-color 0.2s;
 }
 
 .feed-item.error {
-    background-color: #fff5f5;
-    border-color: #ccc;
+    background-color: var(--error-bg-color);
+    border-color: var(--border-color);
 }
 
 .feed-title {
@@ -254,30 +300,30 @@ button {
     font-size: 18px;
     font-weight: bold;
     text-decoration: none;
-    color: #000;
+    color: var(--text-color);
     border-bottom: 2px solid transparent;
 }
 
 .feed-title a::after {
     content: " →";
-    color: #666;
+    color: var(--meta-text-color);
 }
 
 .feed-description {
     font-size: 14px;
-    color: #666;
+    color: var(--meta-text-color);
     margin-bottom: 10px;
 }
 
 .feed-stats {
     font-size: 12px;
-    color: #999;
+    color: var(--meta-text-color);
 }
 
 /* Application-specific styles */
 .header {
     text-align: center;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--header-border-color);
     padding-bottom: 20px;
     margin-bottom: 30px;
 }
@@ -290,7 +336,7 @@ button {
 
 .subtitle {
     font-size: 14px;
-    color: #666;
+    color: var(--meta-text-color);
     margin-top: 10px;
 }
 
@@ -301,18 +347,22 @@ button {
 .nav-item {
     display: block;
     padding: 15px;
-    border: 2px solid #ccc;
-    background-color: #fafafa;
+    border: 2px solid var(--border-color);
+    background-color: var(--item-bg-color);
     text-decoration: none;
-    color: #000;
+    color: var(--text-color);
     font-size: 18px;
     cursor: pointer;
     margin-bottom: 15px;
     transition: background-color 0.2s;
 }
 
+.nav-item:hover {
+    background-color: var(--item-hover-bg-color);
+}
+
 .feed-count {
-    color: #666;
+    color: var(--meta-text-color);
     font-size: 14px;
     float: right;
 }
@@ -328,16 +378,21 @@ button {
 .article {
     margin-bottom: 20px;
     padding: 15px;
-    border-bottom: 2px solid #eee;
-    background-color: #fafafa;
+    border-bottom: 2px solid var(--border-color);
+    background-color: var(--item-bg-color);
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.article:hover {
+    background-color: var(--item-hover-bg-color);
 }
 
 .article .article-title {
     font-size: 20px;
     margin: 0 0 10px 0;
     font-weight: bold;
-    color: #000;
+    color: var(--text-color);
 }
 
 .article .article-title:hover {
@@ -355,32 +410,32 @@ button {
 .article-header {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .article-header .article-title {
     font-size: 24px;
     margin: 0 0 15px 0;
     font-weight: bold;
-    color: #000;
+    color: var(--text-color);
     line-height: 1.3;
 }
 
 .article-header .article-meta {
     font-size: 14px;
-    color: #666;
+    color: var(--meta-text-color);
 }
 
 .article-controls {
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
 }
 
 .toggle-images-btn {
-    background-color: #ffffff;
-    border: 2px solid #000000;
-    color: #000000;
+    background-color: var(--input-bg-color);
+    border: 2px solid var(--input-border-color);
+    color: var(--text-color);
     padding: 8px 16px;
     font-size: 14px;
     font-family: "Times New Roman", serif;
@@ -390,31 +445,31 @@ button {
 }
 
 .toggle-images-btn:hover {
-    background-color: #f0f0f0;
+    background-color: var(--item-hover-bg-color);
 }
 
 .toggle-images-btn.images-visible {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
 }
 
 .toggle-images-btn.images-visible:hover {
-    background-color: #333333;
+    background-color: var(--item-hover-bg-color);
 }
 
 .error-message {
-    color: #000000;
-    background-color: #f0f0f0;
+    color: var(--text-color);
+    background-color: var(--error-bg-color);
     padding: 20px;
-    border: 2px solid #000000;
+    border: 2px solid var(--error-border-color);
     margin: 20px 0;
 }
 
 .debug-section {
     margin-top: 30px;
     padding: 20px;
-    background-color: #f5f5f5;
-    border: 2px solid #ccc;
+    background-color: var(--debug-bg-color);
+    border: 2px solid var(--debug-border-color);
     border-radius: 5px;
 }
 
@@ -422,9 +477,9 @@ button {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 15px;
-    color: #333;
+    color: var(--text-color);
     cursor: pointer;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 5px;
 }
 
@@ -432,9 +487,10 @@ button {
     display: none;
     font-family: "Courier New", monospace;
     font-size: 12px;
-    background-color: #fff;
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     overflow-x: auto;
     white-space: pre-wrap;
     max-height: 400px;
@@ -450,6 +506,14 @@ button {
     body {
         font-size: 16px;
         padding: 10px;
+    }
+    
+    .article-content {
+        font-size: 18px;
+    }
+    
+    .article-content p {
+        font-size: 18px;
     }
     
     h1 {
@@ -474,6 +538,26 @@ button {
 
 /* Print styles for better Kindle compatibility */
 @media print {
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #000000;
+        --border-color: #cccccc;
+        --item-bg-color: #fafafa;
+        --item-hover-bg-color: #f0f0f0;
+        --header-border-color: #000000;
+        --link-color: #000000;
+        --error-bg-color: #f0f0f0;
+        --error-border-color: #000000;
+        --button-bg-color: #000000;
+        --button-text-color: #ffffff;
+        --button-border-color: #000000;
+        --input-bg-color: #ffffff;
+        --input-border-color: #000000;
+        --meta-text-color: #666666;
+        --debug-bg-color: #f5f5f5;
+        --debug-border-color: #cccccc;
+    }
+    
     body {
         font-size: 12pt;
         line-height: 1.5;
@@ -481,5 +565,116 @@ button {
     
     .nav-item, .back-link {
         color: #000 !important;
+    }
+}
+
+/* Floating navigation buttons */
+.floating-nav-btn {
+    position: fixed;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--item-bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color);
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.floating-nav-btn:hover {
+    background-color: var(--item-hover-bg-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.floating-nav-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.page-up-btn {
+    bottom: 120px;
+}
+
+.page-down-btn {
+    bottom: 60px;
+}
+
+/* Hide floating buttons on small screens to avoid interfering with touch navigation */
+@media (max-width: 768px) {
+    .floating-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        right: 10px;
+    }
+    
+    .page-up-btn {
+        bottom: 90px;
+    }
+    
+    .page-down-btn {
+        bottom: 40px;
+    }
+}
+
+/* Hide floating buttons when printing */
+@media print {
+    .floating-nav-btn {
+        display: none !important;
+    }
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: 2px solid var(--button-border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: "Times New Roman", serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle:hover {
+    background-color: var(--item-hover-bg-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive theme toggle */
+@media (max-width: 768px) {
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Hide theme toggle when printing */
+@media print {
+    .theme-toggle {
+        display: none !important;
     }
 }

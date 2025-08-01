@@ -13,6 +13,9 @@ function setDebugMode(debugMode) {
 }
 
 function initializePage() {
+    // Initialize theme first
+    initializeTheme();
+    
     // Set update time
     document.getElementById('update-time').textContent = new Date().toLocaleString();
     
@@ -21,6 +24,9 @@ function initializePage() {
     
     // Generate content areas
     generateContentAreas();
+    
+    // Create floating navigation buttons
+    createFloatingNavButtons();
     
     // Show main navigation by default
     showMainNavigation();
@@ -83,6 +89,9 @@ function generateContentAreas() {
                 <div class="feed-description">${feed.description || ''}</div>
             </div>
             ${articlesHTML}
+            <div class="back-link">
+                <a href="#" onclick="showMainNavigation(); return false;">← Back to Feeds</a>
+            </div>
         `;
         
         container.appendChild(feedListArea);
@@ -121,6 +130,11 @@ function generateContentAreas() {
                         ${generateArticleContent(article)}
                     </div>
                     ${debugSection}
+                    <div class="back-link">
+                        <a href="#" onclick="showFeed(${index}); return false;">← Back to ${feed.title || feed.name}</a>
+                        <br>
+                        <a href="#" onclick="showMainNavigation(); return false;">← Back to Feeds</a>
+                    </div>
                 `;
                 
                 container.appendChild(articleView);
@@ -137,6 +151,9 @@ function showMainNavigation() {
     
     // Show navigation
     document.getElementById('main-navigation').style.display = 'block';
+    
+    // Update floating nav visibility
+    updateFloatingNavVisibility();
 }
 
 function generateArticleContent(article) {
@@ -208,6 +225,9 @@ function showFeed(feedIndex) {
     if (feedArea) {
         feedArea.classList.add('active');
     }
+    
+    // Update floating nav visibility
+    updateFloatingNavVisibility();
 }
 
 function showArticle(feedIndex, articleIndex) {
@@ -221,6 +241,12 @@ function showArticle(feedIndex, articleIndex) {
     if (articleView) {
         articleView.classList.add('active');
     }
+    
+    // Update floating nav visibility
+    updateFloatingNavVisibility();
+    
+    // Scroll to top of article
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleDebug(feedIndex, articleIndex) {
@@ -303,5 +329,106 @@ function toggleImages(feedIndex, articleIndex) {
         articleView.dataset.imagesToggled = 'true';
         button.textContent = 'Hide Images';
         button.classList.add('images-visible');
+    }
+}
+
+function createFloatingNavButtons() {
+    // Remove existing buttons if they exist
+    const existingButtons = document.querySelectorAll('.floating-nav-btn');
+    existingButtons.forEach(btn => btn.remove());
+    
+    // Create page up button
+    const pageUpBtn = document.createElement('button');
+    pageUpBtn.className = 'floating-nav-btn page-up-btn';
+    pageUpBtn.innerHTML = '↑';
+    pageUpBtn.onclick = () => pageUp();
+    
+    // Create page down button
+    const pageDownBtn = document.createElement('button');
+    pageDownBtn.className = 'floating-nav-btn page-down-btn';
+    pageDownBtn.innerHTML = '↓';
+    pageDownBtn.onclick = () => pageDown();
+    
+    // Add buttons to body
+    document.body.appendChild(pageUpBtn);
+    document.body.appendChild(pageDownBtn);
+    
+    // Show/hide buttons based on current view
+    updateFloatingNavVisibility();
+}
+
+function updateFloatingNavVisibility() {
+    const pageUpBtn = document.querySelector('.page-up-btn');
+    const pageDownBtn = document.querySelector('.page-down-btn');
+    
+    if (!pageUpBtn || !pageDownBtn) return;
+    
+    // Show buttons only when viewing an article
+    const isArticleView = document.querySelector('.article-view.active');
+    
+    if (isArticleView) {
+        pageUpBtn.style.display = 'block';
+        pageDownBtn.style.display = 'block';
+    } else {
+        pageUpBtn.style.display = 'none';
+        pageDownBtn.style.display = 'none';
+    }
+}
+
+function pageUp() {
+    window.scrollBy({
+        top: -window.innerHeight * 0.8, // Scroll up by 80% of viewport height
+        behavior: 'smooth'
+    });
+}
+
+function pageDown() {
+    window.scrollBy({
+        top: window.innerHeight * 0.8, // Scroll down by 80% of viewport height
+        behavior: 'smooth'
+    });
+}
+
+// Theme toggle functionality
+function initializeTheme() {
+    // Check for saved theme preference or default to dark mode
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Default to dark mode, but respect saved preference
+    const isDarkMode = savedTheme ? savedTheme === 'dark' : true;
+    
+    if (isDarkMode) {
+        document.documentElement.classList.remove('light-mode');
+    } else {
+        document.documentElement.classList.add('light-mode');
+    }
+    
+    updateThemeToggleButton();
+}
+
+function toggleTheme() {
+    const isLightMode = document.documentElement.classList.contains('light-mode');
+    
+    if (isLightMode) {
+        // Switch to dark mode
+        document.documentElement.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        // Switch to light mode
+        document.documentElement.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+    }
+    
+    updateThemeToggleButton();
+}
+
+function updateThemeToggleButton() {
+    const themeToggle = document.querySelector('.theme-toggle');
+    const isLightMode = document.documentElement.classList.contains('light-mode');
+    
+    if (themeToggle) {
+        themeToggle.textContent = isLightMode ? '🌙' : '🌞';
+        themeToggle.setAttribute('aria-label', isLightMode ? 'Switch to dark mode' : 'Switch to light mode');
     }
 }
