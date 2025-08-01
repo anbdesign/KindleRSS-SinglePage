@@ -111,6 +111,11 @@ function generateContentAreas() {
                         <div class="article-meta">
                             ${new Date(article.pubDate).toLocaleDateString()} • ${article.author}
                         </div>
+                        <div class="article-controls">
+                            <button class="toggle-images-btn" onclick="toggleImages(${index}, ${articleIndex})">
+                                Toggle Images
+                            </button>
+                        </div>
                     </div>
                     <div class="article-content">
                         ${generateArticleContent(article)}
@@ -141,7 +146,7 @@ function generateArticleContent(article) {
     if (article.contentEncoded && article.contentEncoded.trim()) {
         contentHtml += '<div class="content-section">';
         contentHtml += '<h3>Full Content (content:encoded):</h3>';
-        contentHtml += article.contentEncoded;
+        contentHtml += processContentForImages(article.contentEncoded);
         contentHtml += '</div>';
     }
     
@@ -149,7 +154,7 @@ function generateArticleContent(article) {
     if (article.content && article.content.trim() && article.content !== article.contentEncoded) {
         contentHtml += '<div class="content-section">';
         contentHtml += '<h3>Content:</h3>';
-        contentHtml += article.content;
+        contentHtml += processContentForImages(article.content);
         contentHtml += '</div>';
     }
     
@@ -157,7 +162,7 @@ function generateArticleContent(article) {
     if (!contentHtml && article.contentSnippet && article.contentSnippet.trim()) {
         contentHtml += '<div class="content-section">';
         contentHtml += '<h3>Summary:</h3>';
-        contentHtml += article.contentSnippet;
+        contentHtml += processContentForImages(article.contentSnippet);
         contentHtml += '</div>';
     }
     
@@ -167,6 +172,26 @@ function generateArticleContent(article) {
     }
     
     return contentHtml;
+}
+
+function processContentForImages(content) {
+    // Replace all img tags with placeholders to prevent automatic image loading
+    return content.replace(/<img([^>]*)>/g, function(match, attributes) {
+        // Extract src attribute
+        const srcMatch = attributes.match(/src\s*=\s*["']([^"']+)["']/);
+        const altMatch = attributes.match(/alt\s*=\s*["']([^"']+)["']/);
+        
+        const src = srcMatch ? srcMatch[1] : '';
+        const alt = altMatch ? altMatch[1] : 'Image';
+        
+        return `<div class="image-placeholder" data-src="${src}" data-original-attributes="${attributes}">
+            <div class="image-placeholder-content">
+                <div class="image-placeholder-icon">🖼️</div>
+                <div class="image-placeholder-text">${alt}</div>
+                <div class="image-placeholder-note">Image not loaded - click "Toggle Images" to view</div>
+            </div>
+        </div>`;
+    });
 }
 
 function showFeed(feedIndex) {
@@ -208,5 +233,75 @@ function toggleDebug(feedIndex, articleIndex) {
             const article = feedsData[feedIndex].articles[articleIndex];
             debugContent.textContent = JSON.stringify(article.debugData, null, 2);
         }
+    }
+}
+
+function toggleImages(feedIndex, articleIndex) {
+    const articleView = document.getElementById(`article-${feedIndex}-${articleIndex}`);
+    if (!articleView) return;
+    
+    const imagesToggled = articleView.dataset.imagesToggled === 'true';
+    const button = articleView.querySelector('.toggle-images-btn');
+    
+    if (imagesToggled) {
+        // Hide images - replace img tags with placeholders
+        const images = articleView.querySelectorAll('.article-content img[data-placeholder-src]');
+        images.forEach(img => {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.dataset.src = img.dataset.placeholderSrc;
+            placeholder.dataset.originalAttributes = img.dataset.originalAttributes || '';
+            
+            const alt = img.alt || 'Image';
+            placeholder.innerHTML = `
+                <div class="image-placeholder-content">
+                    <div class="image-placeholder-icon">🖼️</div>
+                    <div class="image-placeholder-text">${alt}</div>
+                    <div class="image-placeholder-note">Image not loaded - click "Toggle Images" to view</div>
+                </div>
+            `;
+            
+            img.parentNode.replaceChild(placeholder, img);
+        });
+        
+        articleView.dataset.imagesToggled = 'false';
+        button.textContent = 'Toggle Images';
+        button.classList.remove('images-visible');
+    } else {
+        // Show images - replace placeholders with actual img tags
+        const placeholders = articleView.querySelectorAll('.article-content .image-placeholder[data-src]');
+        placeholders.forEach(placeholder => {
+            if (placeholder.dataset.src) {
+                const img = document.createElement('img');
+                img.src = placeholder.dataset.src;
+                img.dataset.placeholderSrc = placeholder.dataset.src;
+                img.dataset.originalAttributes = placeholder.dataset.originalAttributes;
+                
+                // Apply original attributes if available
+                if (placeholder.dataset.originalAttributes) {
+                    const attributes = placeholder.dataset.originalAttributes;
+                    const altMatch = attributes.match(/alt\s*=\s*["']([^"']+)["']/);
+                    if (altMatch) {
+                        img.alt = altMatch[1];
+                    }
+                }
+                
+                // Add loading indicator
+                img.onload = function() {
+                    this.classList.add('loaded');
+                };
+                
+                img.onerror = function() {
+                    this.alt = 'Image failed to load';
+                    this.classList.add('error');
+                };
+                
+                placeholder.parentNode.replaceChild(img, placeholder);
+            }
+        });
+        
+        articleView.dataset.imagesToggled = 'true';
+        button.textContent = 'Hide Images';
+        button.classList.add('images-visible');
     }
 }
