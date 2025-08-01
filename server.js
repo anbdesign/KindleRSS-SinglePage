@@ -30,24 +30,31 @@ const popularFeeds = [
 ];
 
 // Function to fetch and parse RSS feeds
-async function fetchAllFeeds() {
+async function fetchAllFeeds(includeDebugData = false) {
   const feedPromises = popularFeeds.map(async (feedInfo) => {
     try {
       console.log(`Fetching feed: ${feedInfo.name}`);
       const feed = await parser.parseURL(feedInfo.url);
       
       // Clean and format articles
-      const articles = feed.items.map(item => ({
-        title: item.title || 'No Title',
-        link: item.link || '#',
-        pubDate: item.pubDate || item.isoDate || 'Unknown Date',
-        contentSnippet: item.contentSnippet || item.summary || '',
-        content: item.content || '',
-        contentEncoded: item['content:encoded'] || '',
-        author: item.creator || item.author || feed.title || 'Unknown Author',
-        // Debug: Include all available RSS item properties
-        debugData: item
-      }));
+      const articles = feed.items.map(item => {
+        const article = {
+          title: item.title || 'No Title',
+          link: item.link || '#',
+          pubDate: item.pubDate || item.isoDate || 'Unknown Date',
+          contentSnippet: item.contentSnippet || item.summary || '',
+          content: item.content || '',
+          contentEncoded: item['content:encoded'] || '',
+          author: item.creator || item.author || feed.title || 'Unknown Author'
+        };
+        
+        // Only include debugData when specifically requested
+        if (includeDebugData) {
+          article.debugData = item;
+        }
+        
+        return article;
+      });
 
       return {
         name: feedInfo.name,
@@ -86,7 +93,7 @@ app.get('/', async (req, res) => {
     const feedsJson = JSON.stringify(feeds).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
     
     // Render the EJS template with feeds data
-    res.render('index', { feeds: feedsJson });
+    res.render('index', { feeds: feedsJson, isDebugMode: false });
     console.log('Template rendered successfully');
   } catch (error) {
     console.error('Error generating page:', error);
@@ -115,11 +122,33 @@ app.get('/debug', async (req, res) => {
     const feeds = await fetchAllFeeds();
     console.log('Debug route - Feeds fetched successfully, count:', feeds.length);
     
-    // For debug, keep the original feeds object structure
-    res.render('debug', { feeds });
+    // Escape feeds data for safe embedding in HTML
+    const feedsJson = JSON.stringify(feeds).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+    
+    // For debug, render index template with debug mode enabled
+    res.render('index', { feeds: feedsJson, isDebugMode: true });
   } catch (error) {
     console.error('Debug route error:', error);
     res.status(500).send(`Debug Error: ${error.message}`);
+  }
+});
+
+// Debug data route - shows full RSS item data including debugData
+app.get('/debugData', async (req, res) => {
+  console.log('=== DEBUG DATA ROUTE HIT ===');
+  try {
+    console.log('Debug data route - Fetching all RSS feeds with debug data...');
+    const feeds = await fetchAllFeeds(true); // Include debug data
+    console.log('Debug data route - Feeds fetched successfully, count:', feeds.length);
+    
+    // Escape feeds data for safe embedding in HTML
+    const feedsJson = JSON.stringify(feeds).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+    
+    // For debug data, render index template with debug mode enabled
+    res.render('index', { feeds: feedsJson, isDebugMode: true });
+  } catch (error) {
+    console.error('Debug data route error:', error);
+    res.status(500).send(`Debug Data Error: ${error.message}`);
   }
 });
 

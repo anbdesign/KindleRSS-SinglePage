@@ -1,9 +1,15 @@
 // RSS Kindle Reader JavaScript
 let feedsData = [];
+let isDebugMode = false;
 
 // Function to set feeds data (called from EJS template)
 function setFeedsData(data) {
     feedsData = data;
+}
+
+// Function to set debug mode (called from EJS template)
+function setDebugMode(debugMode) {
+    isDebugMode = debugMode;
 }
 
 function initializePage() {
@@ -88,6 +94,16 @@ function generateContentAreas() {
                 articleView.id = `article-${index}-${articleIndex}`;
                 articleView.className = 'article-view';
                 
+                const debugSection = isDebugMode ? `
+                    <div class="debug-section">
+                        <div class="debug-title" onclick="toggleDebug(${index}, ${articleIndex})">
+                            🔍 Debug: Show RSS Data (Click to toggle)
+                        </div>
+                        <div id="debug-${index}-${articleIndex}" class="debug-content">
+                        </div>
+                    </div>
+                ` : '';
+                
                 articleView.innerHTML = `
                     <a href="#" class="back-link" onclick="showFeed(${index}); return false;">← Back to ${feed.title || feed.name}</a>
                     <div class="article-header">
@@ -99,13 +115,7 @@ function generateContentAreas() {
                     <div class="article-content">
                         ${generateArticleContent(article)}
                     </div>
-                    <div class="debug-section">
-                        <div class="debug-title" onclick="toggleDebug(${index}, ${articleIndex})">
-                            🔍 Debug: Show RSS Data (Click to toggle)
-                        </div>
-                        <div id="debug-${index}-${articleIndex}" class="debug-content">
-                        </div>
-                    </div>
+                    ${debugSection}
                 `;
                 
                 container.appendChild(articleView);

@@ -23,6 +23,7 @@
 
     <!-- EJS Data Injection -->
     <script type="application/json" id="feeds-data"><%- feeds %></script>
+    <script type="application/json" id="debug-mode"><%- JSON.stringify(isDebugMode) %></script>
     
     <script src="/app.js"></script>
     <script>
@@ -34,8 +35,15 @@
             // Get feeds data from JSON script tag
             const feedsDataElement = document.getElementById('feeds-data');
             const feedsData = JSON.parse(feedsDataElement.textContent);
+            
+            // Get debug mode flag
+            const debugModeElement = document.getElementById('debug-mode');
+            const isDebugMode = JSON.parse(debugModeElement.textContent);
+            
             setFeedsData(feedsData);
+            setDebugMode(isDebugMode);
             console.log('Feeds data set, count:', feedsData.length);
+            console.log('Debug mode:', isDebugMode);
         } catch (error) {
             console.error('Error setting feeds data:', error);
         }
